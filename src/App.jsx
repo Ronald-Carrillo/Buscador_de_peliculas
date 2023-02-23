@@ -6,7 +6,31 @@ import responsiveMovies from './mocks/with_results.json'
 function App() {
   const movies = responsiveMovies.Search
   const hasMovies = movies.length > 0
-  console.log(movies.length)
+  
+
+  const renderMovies = () =>{
+  return(
+    <ul>  
+      {
+         movies.map(movie => (
+         <li key={movie.imdbID}>
+             <h3>{movie.Title}</h3>
+             <p>{movie.Year}</p>
+             <img src={movie.Poster} alt={movie.title}/>
+         </li>
+       ))
+      }
+   </ul>
+
+    )
+  }
+
+  
+  const renderNoResult = () => {
+    return(
+       <p> no se encuentra peliculas</p>
+      )
+    }
 
   return (
     <div className='page'> 
@@ -18,27 +42,16 @@ function App() {
         </form>
       </header>
 
-        <main>
+      <main>
         { 
           hasMovies 
-          ? ( 
-            <ul>  
-               {
-                  movies.map(movie => (
-                  <li key={movie.imdbID}>
-                      <h3>{movie.Title}</h3>
-                      <p>{movie.Year}</p>
-                      <img src={movie.Poster} alt={movie.title}/>
-                  </li>
-                ))
-               }
-            </ul>
-            )
-          : (
-              <p> no se encuentra peliculas</p>
-            )
+          ? renderMovies()
+          : renderNoResult()
+          
         }
-        </main>
+      </main>
+           
+            
     </div>
 
   )
