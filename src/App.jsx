@@ -1,12 +1,16 @@
 import { useState } from 'react'
 import "./App.css"
 import { Movies } from './components/Movies'
-import responsiveMovies from './mocks/with_results.json'
-// import noResults from './mocks/no_results.json'
+import { useMovies} from './hooks/useMovies'
+
+
+
+
 
 function App() {
   
-  const movies = responsiveMovies.Search
+const {movies} = useMovies()
+
   return (
     <div className='page'> 
       <header>
