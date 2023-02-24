@@ -10,15 +10,12 @@ import { useMovies} from './hooks/useMovies'
 function App() {
   
 const {movies} = useMovies()
-const inputRef = useRef()   // referencia de mi input
-  
 
 
 const handleSubmit = (event) => { 
-  event.preventDefault()  
-  const inputEl = inputRef.current
-  const value  = inputEl.value
-  console.log(value)
+  event.preventDefault() 
+  const data = Object.fromEntries(new window.FormData(event.target) ) // propio formulario
+  console.log(data)
 }
 
 
@@ -29,7 +26,9 @@ const handleSubmit = (event) => {
       <header>
         <h1>Buscador de peliculas</h1>
         <form className='form' onSubmit={handleSubmit} >    // con el form onSubmit me engloba los elemntos y recuperar informacion
-          <input  ref={inputRef} placeholder='peliculas' />
+          <input name='query'  placeholder='peliculas' />
+          <input name='hello'  placeholder='peliculas' />
+          <input name='bey'  placeholder='peliculas' />
           <button type='submit'> Buscar </button>
         </form>
       </header>
