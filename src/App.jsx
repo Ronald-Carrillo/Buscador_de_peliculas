@@ -4,39 +4,54 @@ import { Movies } from './components/Movies'
 import { useMovies} from './hooks/useMovies'
 
 
+ function useSearch(){
+  const [search, updateSearch ] = useState ("")
+  const [error, setError ] = useState (null)
+  const isFirstInput = useRef(true)
 
+  useEffect(()=>{  // parametros para validar informacion del input
+  
+    if (isFirstInput?.current) {
+      isFirstInput.current = search === ''
+      return
+    }
+    
+    if(search === ""){
+      setError("no se puede buscar una  pelicula vacia")
+      return
+    }
+    // if(search?.length < 3){
+    //   setError("la busqueda debe tener almenos 3 caracteres")
+    //   return
+    // }
+  
+    setError(null)
+  }, [search])
+  
+  return {search, updateSearch, error}
+
+ }
 
 
 function App() {
   
-const {movies} = useMovies()
-const [query, setQuery ] = useState ()
-const [error, setError ] = useState ()
-console.log("query")
+
+  const { search, updateSearch, error } = useSearch()
+  const {movies,getMovies} = useMovies({search})
+
 
 
 const handleSubmit = (event) => { 
   event.preventDefault() 
-  console.log({query}) 
+  getMovies({search})
+  
 }
 
 const handleChange = (event) => {
-setQuery(event.target.value)
- 
+  const newSearch = event.target.value
+  updateSearch(newSearch)
 }
 
-useEffect(()=>{  // parametros para validar informacion delinput
-  if(query === ""){
-    setError("no se puede buscar una  pelicula vacia")
-    return
-  }
-  if(query?.length < 3){
-    setError("la busqueda debe tener almenos 3 caracteres")
-    return
-  }
-
-  setError(null)
-}, [query])
 
 
 
@@ -45,7 +60,7 @@ useEffect(()=>{  // parametros para validar informacion delinput
       <header>
         <h1>Buscador de peliculas</h1>
         <form className='form' onSubmit={handleSubmit} >   
-           <input onChange={handleChange} value={query} name='query'  placeholder='peliculas' />  {/*onChange cada vez que el input cambie */}
+           <input onChange={handleChange} value={search} name='search'  placeholder='peliculas' />  {/*onChange cada vez que el input cambie */}
           <button type='submit'> Buscar </button>
         </form>
         {error && <p style={{ color: "red", }}> {error} </p>}
@@ -62,3 +77,5 @@ useEffect(()=>{  // parametros para validar informacion delinput
 }
 
 export default App
+
+
