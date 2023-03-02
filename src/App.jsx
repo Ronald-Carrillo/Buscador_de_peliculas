@@ -20,10 +20,10 @@ import { useMovies} from './hooks/useMovies'
       setError("no se puede buscar una  pelicula vacia")
       return
     }
-    // if(search?.length < 3){
-    //   setError("la busqueda debe tener almenos 3 caracteres")
-    //   return
-    // }
+    if(search?.length < 3){
+      setError("la busqueda debe tener almenos 3 caracteres")
+      return
+    }
   
     setError(null)
   }, [search])

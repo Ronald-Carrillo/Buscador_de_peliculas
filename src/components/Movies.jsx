@@ -16,7 +16,7 @@
  )
 }
             
-const renderNoResult = () => {
+function renderNoResult () {
   return(
    <p> no se encuentra peliculas</p>
  )
@@ -31,7 +31,7 @@ export function Movies({movies}){
         hasMovies 
 
           ? <ListOfMovies movies={movies}/>
-          : <renderNoResult/>
+          : <renderNoResult/> 
       )   
     }
 
