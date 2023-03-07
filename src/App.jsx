@@ -37,7 +37,7 @@ function App() {
   
 
   const { search, updateSearch, error } = useSearch()
-  const {movies,getMovies} = useMovies({search})
+  const {movies,getMovies,loading} = useMovies({search})
 
 
 
@@ -67,7 +67,10 @@ const handleChange = (event) => {
       </header>
 
       <main>
-       <Movies movies={movies}/>
+       {
+        loading ? <p>cargando...</p> : <Movies movies={movies}/>
+       }
+       
       </main>
            
             
