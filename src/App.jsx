@@ -5,7 +5,9 @@ import { useMovies} from './hooks/useMovies'
 
 
  function useSearch(){
-  const [search, updateSearch ] = useState ("")
+   
+   
+   const [search, updateSearch ] = useState ("")
   const [error, setError ] = useState (null)
   const isFirstInput = useRef(true)
 
@@ -35,9 +37,9 @@ import { useMovies} from './hooks/useMovies'
 
 function App() {
   
-
+  const [sort, setSort ] = useState (false)   //nos indica por nombre laspeliculas
   const { search, updateSearch, error } = useSearch()
-  const {movies,getMovies,loading} = useMovies({search})
+  const {movies,getMovies,loading} = useMovies({search, sort})
 
 
 
@@ -52,14 +54,17 @@ const handleChange = (event) => {
   updateSearch(newSearch)
 }
 
-
+const handleSort = () => {
+  setSort(!sort) //lo que va ha cambiar en el sort 
+}
 
 
   return (
     <div className='page'> 
       <header>
         <h1>Buscador de peliculas</h1>
-        <form className='form' onSubmit={handleSubmit} >   
+        <form className='form' onSubmit={handleSubmit} >  
+           <input onChange={handleSort}  type = "checkbox" checked ={sort} />  {/*onChange cada vez que el input cambie */}
            <input onChange={handleChange} value={search} name='search'  placeholder='peliculas' />  {/*onChange cada vez que el input cambie */}
           <button type='submit'> Buscar </button>
         </form>
