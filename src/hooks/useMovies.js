@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import {searchMovies} from '../services/movies'
 
 
@@ -10,28 +10,30 @@ const [error, setError] = useState(null)
 const previousSearch = useRef(search) // guardamos la referencia y no cambia al rederizado  
  
 
-const getMovies = async () => {  // forma de  recuperar las peliculas
-
-  if(search === previousSearch.current) return 
-
-    try{
-      setLoading(true)
-      setError(null)
-      previousSearch.current = search
-      const newMovies = await searchMovies({search})
-      setMovies(newMovies)
-
-    }catch(e) {
-      setError(e.message)
-
-    }finally{
-      setLoading(false)
+const getMovies = useMemo(()=>{
+  return async ({search}) => {  // le insertamos el search como parametro para no depender del search global 
+    if(search === previousSearch.current) return 
+  
+      try{
+        setLoading(true)
+        setError(null)
+        previousSearch.current = search
+        const newMovies = await searchMovies({search})
+        setMovies(newMovies)
+  
+      }catch(e) {
+        setError(e.message)
+  
+      }finally{
+        setLoading(false)
+      }
     }
-
-  }
-
-  const sortedMovies = sort 
+},[]) 
+  const sortedMovies = useMemo(() => {
+    return   sort 
   ?[...movies].sort((a,b) => a.title.localeCompare(b.title)) // el sort compara entre a y b  localeCompare compara con acentos 
   : movies
+  },[sort,movies])  // dependencias que tenga en cuenta cada vez que cambie o se haga un calculo 
+
   return { movies: sortedMovies , getMovies, loading}
 }

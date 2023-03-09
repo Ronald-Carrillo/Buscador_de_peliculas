@@ -58,6 +58,10 @@ const handleSort = () => {
   setSort(!sort) //lo que va ha cambiar en el sort 
 }
 
+useEffect(()=>{
+  console.log("newgetMovies")
+},[getMovies])
+
 
   return (
     <div className='page'> 
